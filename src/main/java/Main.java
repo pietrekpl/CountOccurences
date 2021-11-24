@@ -10,6 +10,7 @@ import java.util.*;
 public class Main {
 
     static final String FILE = "C:\\Users\\Lenovo\\Desktop\\test.txt";
+    static final String OUTPUTFILE = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
     public static void main(String[] args) {
 
@@ -59,7 +60,6 @@ public class Main {
                             LinkedHashMap::putAll);
 
                     map.forEach((k, v) -> System.out.println(k + ": " + v));
-
                 }
 
 
