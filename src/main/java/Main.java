@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +9,17 @@ public class Main {
     static final String FILE = "C:\\Users\\Lenovo\\Desktop\\test.txt";
     static final String OUTPUTFILE = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
-    public static void main(String[] args) {
+
+
+
+    public Main() throws FileNotFoundException {
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+
+       // FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
+
+        ExcelWriter excelWriter = new ExcelWriter();
 
         Path path = Paths.get(FILE);
 
@@ -58,6 +65,9 @@ public class Main {
                             LinkedHashMap<String, Integer>::new,
                             (map1, e) -> map1.put(e.getKey(), e.getValue()),
                             LinkedHashMap::putAll);
+
+                  //  excelWriter.saveToExcel(map,fileOutputStream);
+
 
                     map.forEach((k, v) -> System.out.println(k + ": " + v));
                 }
