@@ -12,12 +12,7 @@ import java.util.TreeMap;
 
 public class ExcelWriter {
 
-
-
-
-
-    // to complete the rest of a class
-    public void saveToExcel(Map<String, Integer> map, FileOutputStream fileOutputStream) throws IOException {
+    public void saveToExcel(Map<String, Integer> map, FileOutputStream fileOutputStream)  {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -35,11 +30,16 @@ public class ExcelWriter {
             row.createCell(1).setCellValue(entry.getValue());
         }
 
+        try {
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+            System.out.println("Excel Sheet generated successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        workbook.write(fileOutputStream);
-        fileOutputStream.close();
 
-        System.out.println("Succesfuly written");
+
 
 
 
