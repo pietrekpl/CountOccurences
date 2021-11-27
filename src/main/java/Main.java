@@ -3,6 +3,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 public class Main {
 
@@ -17,9 +19,14 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-       // FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
+      //  FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
 
-        ExcelWriter excelWriter = new ExcelWriter();
+      //  FileOutputStream fileZipOutpustStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
+
+        FileOutputStream fos = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
+        ZipOutputStream zos = new ZipOutputStream(fos);
+
+       // ExcelWriter excelWriter = new ExcelWriter();
 
         Path path = Paths.get(FILE);
 
@@ -66,8 +73,15 @@ public class Main {
                             (map1, e) -> map1.put(e.getKey(), e.getValue()),
                             LinkedHashMap::putAll);
 
-                  //  excelWriter.saveToExcel(map,fileOutputStream);
+                    // excelWriter.saveToExcel(map,fileOutputStream);
 
+                    TxtWriter txtWriter = new TxtWriter();
+                    txtWriter.saveToTxtFile(map, OUTPUTFILE);
+
+                    FileToZip fileToZip = new FileToZip();
+                    fileToZip.zipFile(OUTPUTFILE,zos);
+                    zos.close();
+                    fos.close();
 
                     map.forEach((k, v) -> System.out.println(k + ": " + v));
                 }

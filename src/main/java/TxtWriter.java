@@ -17,9 +17,9 @@ public class TxtWriter {
         this.map = map;
     }
 
-    public void saveToTxtFile(Map<String, Integer> map, String pathToFile) {
+    public void saveToTxtFile(Map<String, Integer> map, String outputFilePath) {
 
-        File outputFile = new File(pathToFile);
+        File outputFile = new File(outputFilePath);
 
         BufferedWriter bufferedWriter = null;
 

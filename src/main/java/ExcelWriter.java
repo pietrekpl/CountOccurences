@@ -1,4 +1,6 @@
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -16,18 +18,29 @@ public class ExcelWriter {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
 
-        XSSFSheet countOccurencesSheet = workbook.createSheet("Count occurrences");
+        XSSFSheet countOccurrencesSheet = workbook.createSheet("Count Occurences");
+
+        countOccurrencesSheet.setColumnWidth(0,6000);
+        countOccurrencesSheet.setColumnWidth(1,6000);
+
+        Row header = countOccurrencesSheet.createRow(0);
+
+        Cell headerCell = header.createCell(0);
+        headerCell.setCellValue("Words");
+
+        headerCell = header.createCell(1);
+        headerCell.setCellValue("Occurrences");
 
         Set<String> keySet = map.keySet();
 
-        int rowNumber = 0;
+        int rowNumber = 1;
 
         for (Map.Entry<String, Integer> entry: map.entrySet()){
 
-            Row row = countOccurencesSheet.createRow(rowNumber++);
-
+            Row row = countOccurrencesSheet.createRow(rowNumber++);
             row.createCell(0).setCellValue(entry.getKey());
             row.createCell(1).setCellValue(entry.getValue());
+
         }
 
         try {
