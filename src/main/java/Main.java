@@ -12,21 +12,17 @@ public class Main {
     static final String OUTPUTFILE = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
 
-
-
     public Main() throws FileNotFoundException {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
 
-      //  FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
-
-      //  FileOutputStream fileZipOutpustStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
+        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
 
         FileOutputStream fos = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
         ZipOutputStream zos = new ZipOutputStream(fos);
 
-       // ExcelWriter excelWriter = new ExcelWriter();
+        // ExcelWriter excelWriter = new ExcelWriter();
 
         Path path = Paths.get(FILE);
 
@@ -73,13 +69,14 @@ public class Main {
                             (map1, e) -> map1.put(e.getKey(), e.getValue()),
                             LinkedHashMap::putAll);
 
-                    // excelWriter.saveToExcel(map,fileOutputStream);
+                    ExcelWriter excelWriter = new ExcelWriter();
+                    excelWriter.saveToExcel(map, fileOutputStream);
 
                     TxtWriter txtWriter = new TxtWriter();
                     txtWriter.saveToTxtFile(map, OUTPUTFILE);
 
                     FileToZip fileToZip = new FileToZip();
-                    fileToZip.zipFile(OUTPUTFILE,zos);
+                    fileToZip.zipFile(OUTPUTFILE, zos);
                     zos.close();
                     fos.close();
 
