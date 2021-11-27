@@ -8,7 +8,7 @@ import java.util.zip.ZipOutputStream;
 
 public class Main {
 
-    static final String FILE = "C:\\Users\\Lenovo\\Desktop\\test.txt";
+    static final String FILE = "C:\\Users\\Lenovo\\Desktop\\10mb.txt";
     static final String OUTPUTFILE = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
 
@@ -21,8 +21,6 @@ public class Main {
 
         FileOutputStream fos = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
         ZipOutputStream zos = new ZipOutputStream(fos);
-
-        // ExcelWriter excelWriter = new ExcelWriter();
 
         Path path = Paths.get(FILE);
 
@@ -79,8 +77,7 @@ public class Main {
                     fileToZip.zipFile(OUTPUTFILE, zos);
                     zos.close();
                     fos.close();
-
-                    map.forEach((k, v) -> System.out.println(k + ": " + v));
+                    
                 }
 
 
