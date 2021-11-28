@@ -6,17 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TxtWriter {
-
-    private Map<String, Integer> map = new HashMap<>();
-
-    public Map<String, Integer> getMap() {
-        return map;
-    }
-
-    public void setMap(Map<String, Integer> map) {
-        this.map = map;
-    }
-
+    // saving map to txt
     public void saveToTxtFile(Map<String, Integer> map, String outputFilePath) {
 
         File outputFile = new File(outputFilePath);

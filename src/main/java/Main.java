@@ -3,47 +3,42 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class Main {
 
-    static final String FILE = "C:\\Users\\Lenovo\\Desktop\\10mb.txt";
-    static final String OUTPUTFILE = "C:\\Users\\Lenovo\\Desktop\\output.txt";
-
-
     public Main() throws FileNotFoundException {
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
+        // setting the destination of a test file
+        final String FILE = "C:\\Users\\Lenovo\\Desktop\\test.txt";
+        // setting the destination to output txt file
+        final String OUTPUT_TXT = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
-        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
-
-        FileOutputStream fos = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
-        ZipOutputStream zos = new ZipOutputStream(fos);
+        // setting excel destination down below in class, to write in line
+        FileOutputStream EXCEL_FILE_INPUT_STREAM;
+        // setting zip archive destination down below in class, to write in line
+        FileOutputStream ZIP_OUTPUT_STREAM;
+        
+        ZipOutputStream zos;
 
         Path path = Paths.get(FILE);
 
-        double fileSizeMb = 0;
+        //checking is entry file has a .txt extension
+        checkFileExtension(path);
 
-        try {
-            fileSizeMb = (double) (Files.size(path) / 1024) / 1024;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (fileSizeMb > 5) {
+        if (calculateFileSizeMb(path) > 5) {
             throw new IllegalArgumentException("File size should be max 5 MB");
         } else {
 
             Map<String, Integer> map = new LinkedHashMap<>();
 
-
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE))) {
+
                 StringBuilder builder = new StringBuilder();
                 // preparing file input, change all words to lower case, eliminate dots and comas
                 String line = bufferedReader.readLine().toLowerCase().replaceAll("\\.", "").replaceAll(",", "");
-
 
                 //counting words and putting them into map
                 while (line != null) {
@@ -67,24 +62,55 @@ public class Main {
                             (map1, e) -> map1.put(e.getKey(), e.getValue()),
                             LinkedHashMap::putAll);
 
-                    ExcelWriter excelWriter = new ExcelWriter();
-                    excelWriter.saveToExcel(map, fileOutputStream);
-
+                    // writing map to .txt file
                     TxtWriter txtWriter = new TxtWriter();
-                    txtWriter.saveToTxtFile(map, OUTPUTFILE);
+                    txtWriter.saveToTxtFile(map, OUTPUT_TXT);
 
-                    FileToZip fileToZip = new FileToZip();
-                    fileToZip.zipFile(OUTPUTFILE, zos);
-                    zos.close();
-                    fos.close();
-                    
+                    File file = new File(OUTPUT_TXT);
+
+                    // if above OUTPUT_TXT file exist, should be processed for rest of operations : saving to excel and zip
+                    if (file.exists()) {
+
+                        // saving map to excel in .xlsx format
+                        EXCEL_FILE_INPUT_STREAM = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\output.xlsx");
+                        ExcelWriter excelWriter = new ExcelWriter();
+                        excelWriter.saveToExcel(map, EXCEL_FILE_INPUT_STREAM);
+
+                        // saving OUT_TXT as zip
+                        ZIP_OUTPUT_STREAM = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
+                        zos = new ZipOutputStream(ZIP_OUTPUT_STREAM);
+                        FileToZip fileToZip = new FileToZip();
+                        fileToZip.zipFile(OUTPUT_TXT, zos);
+                        zos.close();
+                        ZIP_OUTPUT_STREAM.close();
+                    }
                 }
-
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
+
+    // method to calculate file size from bytes to Mb
+    public static double calculateFileSizeMb(Path path) {
+
+        double fileSizeMb = 0;
+
+        try {
+            fileSizeMb = (double) (Files.size(path) / 1024) / 1024;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileSizeMb;
+
+    }
+
+    public static void checkFileExtension(Path path) {
+        if (!path.toFile().getName().endsWith(".txt")) {
+            throw new IllegalArgumentException("File should be in .txt file");
+        }
+
+    }
+
 }

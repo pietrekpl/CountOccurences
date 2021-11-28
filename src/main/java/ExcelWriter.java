@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class ExcelWriter {
-
+    // saving map to excel
     public void saveToExcel(Map<String, Integer> map, FileOutputStream fileOutputStream) {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -19,6 +19,7 @@ public class ExcelWriter {
         sheet.setColumnWidth(0, 6000);
         sheet.setColumnWidth(1, 6000);
 
+        // setting excel styling
         XSSFCellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.getIndex());
@@ -29,9 +30,7 @@ public class ExcelWriter {
         cellStyle.setBorderLeft(BorderStyle.MEDIUM);
         cellStyle.setBorderRight(BorderStyle.MEDIUM);
 
-
         Row header = sheet.createRow(0);
-
 
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue("Words");
@@ -39,11 +38,11 @@ public class ExcelWriter {
         headerCell = header.createCell(1);
         headerCell.setCellValue("Occurrences");
 
-
         Set<String> keySet = map.keySet();
 
         int rowNumber = 1;
 
+        // putting values to excel sheet
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
 
             Row row = sheet.createRow(rowNumber++);
@@ -51,6 +50,7 @@ public class ExcelWriter {
             row.createCell(1).setCellValue(entry.getValue());
         }
 
+        // applying styling to for specified rows
         Iterator<Row> rowIterator = sheet.rowIterator();
 
         while (rowIterator.hasNext()) {
@@ -62,15 +62,11 @@ public class ExcelWriter {
             }
         }
 
-
         try {
             workbook.write(fileOutputStream);
             fileOutputStream.close();
-            System.out.println("Excel Sheet generated successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
