@@ -16,11 +16,11 @@ public class Main {
         // setting the destination to output txt file
         final String OUTPUT_TXT = "C:\\Users\\Lenovo\\Desktop\\output.txt";
 
-        // setting excel destination down below in class, to write in line
+        // setting excel destination down below in class, to write in line 75
         FileOutputStream EXCEL_FILE_INPUT_STREAM;
-        // setting zip archive destination down below in class, to write in line
+        // setting zip archive destination down below in class, to write in line 80
         FileOutputStream ZIP_OUTPUT_STREAM;
-        
+
         ZipOutputStream zos;
 
         Path path = Paths.get(FILE);
@@ -76,7 +76,7 @@ public class Main {
                         ExcelWriter excelWriter = new ExcelWriter();
                         excelWriter.saveToExcel(map, EXCEL_FILE_INPUT_STREAM);
 
-                        // saving OUT_TXT as zip
+                        // saving OUTPUT_TXT as zip
                         ZIP_OUTPUT_STREAM = new FileOutputStream("C:\\Users\\Lenovo\\Desktop\\result.zip");
                         zos = new ZipOutputStream(ZIP_OUTPUT_STREAM);
                         FileToZip fileToZip = new FileToZip();
